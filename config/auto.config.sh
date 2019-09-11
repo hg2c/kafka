@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+ENV_FILE=./.env
+
 get:host:ip() {
     ifconfig en0 | awk '/inet / {gsub("addr:","",$2); print $2}'
 }
@@ -8,7 +10,7 @@ get:container() {
 }
 
 get:brokers() {
-    docker-compose port kafka 9092 | sed -e "s/0.0.0.0:/$HOST_IP:/g"
+    docker-compose port kafka 9092 2>/dev/null | sed -e "s/0.0.0.0:/$HOST_IP:/g"
 }
 
 set:env() {
@@ -16,15 +18,15 @@ set:env() {
     local value=$($2)
 
     eval "export $key=$value"
-    echo $key=$value >> .env
+    echo $key=$value >> $ENV_FILE
 }
 
-rm .env
+rm $ENV_FILE
 
 set:env CONTAINER get:container
 set:env HOST_IP   get:host:ip
 set:env BROKERS   get:brokers
 
 # echo "------------------"
-# cat .env
+# cat $ENV_FILE
 # echo "------------------"

@@ -1,5 +1,5 @@
 config:
-	./config.sh
+	./config/auto.config.sh
 	docker-compose config
 
 run: config
