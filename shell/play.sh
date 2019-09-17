@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euf -o pipefail
+set -euo pipefail
 
 source ./config/auto.config.sh
 source ./config/config.sh
@@ -17,7 +17,7 @@ Commands:
 assert:notEmpty() {
     local var=$(eval echo \$$1)
     if [ -z "$var" ]; then
-        >&2 echo "ERROR: \$$1 is empty"
+        >&2 echo "ERROR: $1 is empty"
         exit 1
     fi
 }
