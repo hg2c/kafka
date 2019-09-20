@@ -8,6 +8,9 @@ run: config
 up: config
 	docker-compose up -d
 
+zk:
+	docker-compose up -d zookeeper
+
 ps:
 	docker-compose ps
 

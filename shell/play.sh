@@ -49,7 +49,11 @@ run() {
 
 
 topic:create() {
-    run $KAFKA_HOME/bin/kafka-topics.sh --create --replication-factor 1 --partitions 1 --topic $1 --bootstrap-server $BROKERS
+    run $KAFKA_HOME/bin/kafka-topics.sh --create --replication-factor 1 --partitions 3 --topic $1 --bootstrap-server $BROKERS
+}
+
+topic:delete() {
+    run $KAFKA_HOME/bin/kafka-topics.sh --delete --topic $1 --bootstrap-server $BROKERS
 }
 
 topic:list() {
@@ -73,8 +77,14 @@ case $ACTION in
     ct|create)
         topic:create ${2:-${DEFAULT_TOPIC}}
         ;;
+    de|delete)
+        topic:delete $2
+        ;;
     l|list)
         topic:list ${2:-${DEFAULT_TOPIC}}
+        ;;
+    d|describe)
+        topic:describe ${2:-${DEFAULT_TOPIC}}
         ;;
     p|producer)
         message:producer ${2:-$DEFAULT_MESSAGE} ${3:-${DEFAULT_TOPIC}}
